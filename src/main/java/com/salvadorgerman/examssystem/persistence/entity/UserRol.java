@@ -1,7 +1,12 @@
 package com.salvadorgerman.examssystem.persistence.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
 @Entity
 public class UserRol {
 
