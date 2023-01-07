@@ -23,17 +23,18 @@ public class UserController {
 
     @PostMapping
     public User saveUser(@RequestBody User user) throws Exception {
-        Set<UserRol> rols = new HashSet<>();
+        Set<UserRol> userRols = new HashSet<>(); // Colleccion de userRoles
 
-        Rol rol = new Rol();
-        rol.setId(1L);
-        rol.setRolName("STUDENT");
+        Rol rol = new Rol(); // Se crea un nuevo rol
+        rol.setId(1L); // Se le define 1 como id para el nuevo rol creado
+        rol.setRolName("STUDENT"); // Se le define el nombre al rol creado
 
-        UserRol userRol = new UserRol();
-        userRol.setUser(user);
-        userRol.setRol(rol);
+        UserRol userRol = new UserRol(); // Se crea un nuevo userRol
+        userRol.setUser(user); // se le define el user
+        userRol.setRol(rol); // se le define el rol
 
-        return userService.saveUser(user, rols);
+        //userRols.add(userRol); // a la coleccion de roles se le agredar el
+        return userService.saveUser(user, userRols);
     }
 
     @GetMapping("/{username}")

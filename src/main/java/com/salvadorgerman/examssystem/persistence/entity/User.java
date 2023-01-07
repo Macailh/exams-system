@@ -1,5 +1,6 @@
 package com.salvadorgerman.examssystem.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +26,6 @@ public class User {
     private String profile;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    //@JsonIgnore
     private Set<UserRol> userRols = new HashSet<>();
 }
