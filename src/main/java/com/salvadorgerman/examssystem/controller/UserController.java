@@ -12,6 +12,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin("*")
 public class UserController {
 
     private final UserService userService;
@@ -24,6 +25,7 @@ public class UserController {
     @PostMapping
     public User saveUser(@RequestBody User user) throws Exception {
         Set<UserRol> userRols = new HashSet<>(); // Colleccion de userRoles
+        user.setProfile("default.png");
 
         Rol rol = new Rol(); // Se crea un nuevo rol
         rol.setId(1L); // Se le define 1 como id para el nuevo rol creado
@@ -33,7 +35,7 @@ public class UserController {
         userRol.setUser(user); // se le define el user
         userRol.setRol(rol); // se le define el rol
 
-        //userRols.add(userRol); // a la coleccion de roles se le agredar el
+        userRols.add(userRol); // a la coleccion de roles se le agredar el
         return userService.saveUser(user, userRols);
     }
 
