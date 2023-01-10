@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(
             strategy = GenerationType.IDENTITY) // Se usa para indicar como se generará la clave primaria *
@@ -36,6 +39,31 @@ public class User {
     // Anotación Jackson que sirve para excluir propiedades en la representacióñ JSON
     @JsonIgnore
     private Set<UserRol> userRols = new HashSet<>();
+
+    // Crea un colleción de authorities y se añade cada UserRol definido en la variable userRols
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<Authority> authorities = new HashSet<>();
+        this.userRols.forEach(userRol -> {
+            authorities.add(new Authority(userRol.getRol().getRolName()));
+        });
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 }
 
 //    *   CascadeType.PERSIST: las operaciones de persistencia (guardar) se cascan a las entidades asociadas.
