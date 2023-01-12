@@ -1,5 +1,6 @@
 package com.salvadorgerman.examssystem.service;
 
+import com.salvadorgerman.examssystem.exception.UserFoundException;
 import com.salvadorgerman.examssystem.persistence.entity.User;
 import com.salvadorgerman.examssystem.persistence.entity.UserRol;
 import com.salvadorgerman.examssystem.persistence.repository.RolRepository;
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService{
         // Si se ecuentra alguna coincidencia se lanza una excepción
         if(userLocal != null) {
             System.out.println("User already exist");
-            throw new Exception("User already exist");
+            throw new UserFoundException("User already exist");
         } else {
             // Se recorre y guarda cada rol que se encuentre en userRols
             for (UserRol userRol : userRols) {

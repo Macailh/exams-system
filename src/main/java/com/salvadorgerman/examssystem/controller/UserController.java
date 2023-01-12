@@ -5,6 +5,7 @@ import com.salvadorgerman.examssystem.persistence.entity.User;
 import com.salvadorgerman.examssystem.persistence.entity.UserRol;
 import com.salvadorgerman.examssystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -16,16 +17,20 @@ import java.util.Set;
 public class UserController {
 
     private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @PostMapping
     public User saveUser(@RequestBody User user) throws Exception {
         Set<UserRol> userRols = new HashSet<>(); // Colleccion de userRoles
         user.setProfile("default.png");
+
+        user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 
         Rol rol = new Rol(); // Se crea un nuevo rol
         rol.setId(1L); // Se le define 1 como id para el nuevo rol creado

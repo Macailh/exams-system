@@ -1,8 +1,11 @@
 package com.salvadorgerman.examssystem.controller;
 
 import com.salvadorgerman.examssystem.config.JwtUtils;
+import com.salvadorgerman.examssystem.exception.UserFoundException;
+import com.salvadorgerman.examssystem.exception.UserNotFoundException;
 import com.salvadorgerman.examssystem.persistence.entity.JwtRequest;
 import com.salvadorgerman.examssystem.persistence.entity.JwtResponse;
+import com.salvadorgerman.examssystem.persistence.entity.User;
 import com.salvadorgerman.examssystem.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +15,12 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
+@CrossOrigin
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
@@ -34,9 +38,9 @@ public class AuthenticationController {
     public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception{
         try {
             authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
-        }catch (Exception e) {
+        }catch (UserNotFoundException e) {
             e.printStackTrace();
-            throw new Exception("User not found");
+            throw new UserFoundException("User not found");
         }
 
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
@@ -52,5 +56,10 @@ public class AuthenticationController {
         } catch(BadCredentialsException badCredentialsException) {
             throw new Exception("Invalid credentials " + badCredentialsException.getMessage());
         }
+    }
+
+    @GetMapping("/current-user")
+    public User getCurrentUser(Principal principal) {
+        return (User) this.userDetailsService.loadUserByUsername(principal.getName());
     }
 }
