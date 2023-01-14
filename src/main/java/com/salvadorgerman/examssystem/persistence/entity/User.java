@@ -28,7 +28,9 @@ public class User implements UserDetails {
     private String lastname;
     private String email;
     private String phone;
+    @Column(columnDefinition = "boolean default true")
     private boolean enabled;
+    @Column(columnDefinition = "varchar(255) default 'profile.png'") // Establecer valor por defecto a nivel base de datos
     private String profile;
 
     // Establece una relación de 1 a muchos entre 2 entidades de una base de datos
