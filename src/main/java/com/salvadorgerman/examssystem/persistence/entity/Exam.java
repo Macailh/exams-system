@@ -23,7 +23,7 @@ public class Exam {
     private String title;
     private String description;
     private String maxPoints;
-    private String numberofQuestions;
+    private String numberOfQuestions;
     @Column(columnDefinition = "boolean default false")
     private boolean actve;
     @ManyToOne(fetch = FetchType.EAGER)
