@@ -2,10 +2,12 @@ package com.salvadorgerman.examssystem.service;
 
 import com.salvadorgerman.examssystem.persistence.entity.Exam;
 import com.salvadorgerman.examssystem.persistence.repository.ExamRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Service
 public class ExamServiceImpl implements ExamService{
 
     private final ExamRepository examRepository;
