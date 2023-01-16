@@ -33,13 +33,18 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
+    public Set<Question> getAllQuestions() {
+        return (Set<Question>)questionRepository.findAll();
     }
 
     @Override
     public Set<Question> getQuestionsFromExam(Exam exam) {
         return questionRepository.findByExam(exam);
+    }
+
+    @Override
+    public Question listQuestion(Long id) {
+        return questionRepository.getOne(id);
     }
 
     @Override

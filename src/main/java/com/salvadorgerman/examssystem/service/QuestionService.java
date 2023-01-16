@@ -11,11 +11,13 @@ public interface QuestionService {
 
     Question updateQuestion(Question question);
 
+    Set<Question> getAllQuestions();
+
     Question getQuestion(Long id);
 
-    List<Question> getAllQuestions();
-
     Set<Question> getQuestionsFromExam(Exam exam);
+
+    Question listQuestion(Long id);
 
     void deleteQuestion(Long id);
 }
