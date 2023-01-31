@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
