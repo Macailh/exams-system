@@ -43,11 +43,6 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public Question listQuestion(Long id) {
-        return questionRepository.getOne(id);
-    }
-
-    @Override
     public void deleteQuestion(Long id) {
         Question question = new Question();
         question.setId(id);
