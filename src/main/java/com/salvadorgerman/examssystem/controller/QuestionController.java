@@ -7,12 +7,7 @@ import com.salvadorgerman.examssystem.service.QuestionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
+import java.util.*;
 
 @RestController
 @RequestMapping("/questions")
@@ -40,10 +35,10 @@ public class QuestionController {
 
     @GetMapping("/exam/{id}")
     public ResponseEntity<?> getQuestionsFromExam(@PathVariable("id") Long id) {
-        Exam exam = new Exam();
+        Exam exam = examService.getExam(id);
         Set<Question> questions = exam.getQuestions();
 
-        List exams = new ArrayList();
+        List exams = new ArrayList(questions);
         if(exams.size() > Integer.parseInt(exam.getNumberOfQuestions())) {
             exams = exams.subList(0, Integer.parseInt(exam.getNumberOfQuestions() + 1));
         }
@@ -74,4 +69,31 @@ public class QuestionController {
     public void  deleteQuestion(@PathVariable Long id) {
         questionService.deleteQuestion(id);
     }
+
+    @PostMapping("/evaluate-exam")
+    public ResponseEntity<?> evaluateExam(@RequestBody List<Question> questions) {
+        double maxPoints = 0;
+        Integer correctAnswer = 0;
+        Integer attemps = 0;
+
+        for(Question q : questions) {
+            Question question = this.questionService.getQuestion(q.getId());
+            if(question.getAnswer().equals(q.getGivenAnswer())) {
+                correctAnswer++;
+                double points = Double.parseDouble(questions.get(0).getExam().getMaxPoints())/questions.size();
+                maxPoints += points;
+            }
+            if(q.getGivenAnswer() != null) {
+                attemps++;
+            }
+        }
+        Map<String,Object> answers = new HashMap<>();
+
+        answers.put("maxPoints", maxPoints);
+        answers.put("respuestasCorrectas",correctAnswer);
+        answers.put("intentos",attemps);
+
+        return ResponseEntity.ok(answers);
+    }
+
 }
