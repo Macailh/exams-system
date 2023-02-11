@@ -24,6 +24,7 @@ public class Question {
     private String option3;
     private String option4;
     private String answer;
+    private String givenAnswer;
     @ManyToOne(fetch = FetchType.EAGER)
     private Exam exam;
 }
