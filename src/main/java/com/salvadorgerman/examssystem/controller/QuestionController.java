@@ -15,7 +15,6 @@ import java.util.*;
 public class QuestionController {
 
     private final QuestionService questionService;
-
     private final ExamService examService;
 
     public QuestionController(QuestionService questionService, ExamService examService) {
@@ -38,7 +37,7 @@ public class QuestionController {
         Exam exam = examService.getExam(id);
         Set<Question> questions = exam.getQuestions();
 
-        List exams = new ArrayList(questions);
+        List<Question> exams = new ArrayList<>(questions);
         if(exams.size() > Integer.parseInt(exam.getNumberOfQuestions())) {
             exams = exams.subList(0, Integer.parseInt(exam.getNumberOfQuestions() + 1));
         }
