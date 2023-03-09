@@ -48,7 +48,7 @@ The server will respond with a JWT, which you should include in the Authorizatio
 - PUT /api/users/{id} Update a user by ID
 - DELETE /api/users/{id} Delete a user by ID
 
-##Configuration
+## Configuration
 The following variables can be set to configure the server:
 - PORT: The port on which the server should listen (default: 8080)
 - DB_URL: The URL of the database (default: jdbc:mariadb://localhost:3306/exams_system_db)
