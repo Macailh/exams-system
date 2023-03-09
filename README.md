@@ -23,6 +23,7 @@ All APIs require authentication using a JSON Web Token (JWT). To authenticate, s
   "username": "<username>",
   "password": "<password>"
 }
+```
 
 The server will respond with a JWT, which you should include in the Authorization header of all subsequent requests.
 
